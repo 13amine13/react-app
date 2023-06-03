@@ -1,10 +1,52 @@
-import React, { useState } from 'react';
-import styles from '../Styles/register.module.css';
-import axios from 'axios';
+import React, { useState } from "react";
+import styles from "../Styles/register.module.css";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import MyInput from "../components/inputLabel";
 
 function Register() {
-  const [error, setError] = useState('');
+  /*
+    <div className={styles.formGroup}>
+           
+         
+
+      <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="password">
+              Mot de passe:
+            </label>
+            <input
+              className={styles.input}
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.label} htmlFor="ConfirmedPassword">
+              Confirmer le mot de passe :
+            </label>
+            <input
+              className={styles.input}
+              type="password"
+              id="ConfirmedPassword"
+              name="ConfirmedPassword"
+              value={ConfirmedPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
+            />
+          </div>
+               
+      <div className={styles.formGroup}>
+        <label className={styles.label} htmlFor="dateNaissance">Saisir la date de naissance :</label>
+        <input className={styles.input} type="date" id="dateNaissance" name="dateNaissance" value={formData.dateNaissance} onChange={handleChange} />
+      </div>
+    </div>
+  */
+
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     nom: "",
     prenom: "",
@@ -13,7 +55,7 @@ function Register() {
     adresse: "",
     password: "",
     sexe: "",
-    dateNaissance:""
+    dateNaissance: "",
   });
   const [ConfirmedPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
@@ -21,14 +63,15 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (formData.password !== ConfirmedPassword) {
-      setError('Passwords do not match!');
+      setError("Passwords do not match!");
       return;
     }
     if (formData.password.length < 8) {
-      setError('Le mot de passe doit contenir au moins 8 caractères!');
+      setError("Le mot de passe doit contenir au moins 8 caractères!");
       return;
     }
-    axios.post("http://localhost:8080/api/Auth/register", formData)
+    axios
+      .post("http://localhost:8080/api/Auth/register", formData)
       .then((res) => {
         console.log(res.data);
         // Reset form fields
@@ -40,14 +83,13 @@ function Register() {
           adresse: "",
           password: "",
           sexe: "",
-          dateNaissance:"",
+          dateNaissance: "",
         });
         setConfirmPassword("");
-
       })
       .catch((err) => {
         console.log(err);
-        setError('An error occurred during registration.');
+        setError("An error occurred during registration.");
       });
   };
 
@@ -59,69 +101,124 @@ function Register() {
     navigate(-1);
   };
 
+  const inputs = [
+    {
+      type: "text",
+      value: formData.prenom,
+      onchange: handleChange,
+      label: "Prenom :",
+      id: "prenom",
+    },
+    {
+      type: "text",
+      value: formData.nom,
+      onchange: handleChange,
+      label: "Nom :",
+      id: "nom",
+    },
+    {
+      type: "email",
+      value: formData.email,
+      onchange: handleChange,
+      label: "Email : ",
+      id: "email",
+    },
+    {
+      type: "text",
+      value: formData.phone,
+      onchange: handleChange,
+      label: "Téléphone : ",
+      id: "phone",
+    },
+    {
+      type: "text",
+      value: formData.adresse,
+      onchange: handleChange,
+      label: "Adresse :",
+      id: "adresse",
+    },
+    {
+      type: "date",
+      value: formData.dateNaissance,
+      onchange: handleChange,
+      label: "DateNaissance ",
+      id: "dateNaissance",
+    },
+    {
+      type: "password",
+      value: formData.password,
+      onchange: handleChange,
+      label: "Mot de passe",
+      id: "password",
+    },
+    {
+      type: "password",
+      value: ConfirmedPassword,
+      onchange: (e) => {
+        setConfirmPassword(e.target.value);
+      },
+      label: "Confirmez mot de pass",
+      id: "confirmer",
+    },
+  ];
+
   return (
     <div className={styles.signup}>
-  <h2>Inscription</h2>
-  <form onSubmit={handleSubmit}>
-    <div className={styles.formRow}>
-      <div className={styles.formGroup}>
-        <label htmlFor="prenom">Prénom:</label>
-        <input type="text" id="prenom" name="prenom" value={formData.firstName} onChange={handleChange} />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="nom">Nom:</label>
-        <input type="text" id="nom" name="nom" value={formData.lastName} onChange={handleChange} />
-      </div>
+      <h2 className={styles.h2}>Inscription</h2>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <div className={styles.formRow}>
+          {inputs.map((input) => (
+            <div className={styles.formGroup} key={input.id}>
+              <label className={styles.label} htmlFor={input.id}>
+                {input.label}:
+              </label>
+              <input
+                className={styles.input}
+                type={input.type}
+                id={input.id}
+                name={input.id}
+                value={input.value}
+                onChange={input.onchange}
+              />
+            </div>
+          ))}
+        </div>
+        <div className={styles.genderField}>
+          <label className={styles.label} htmlFor="male">Homme</label>
+          <input className={styles.input}
+            type="radio"
+            id="male"
+            name="sexe"
+            value="h"
+            onChange={handleChange}
+          />
+          <label className={styles.label} htmlFor="female">Femme</label>
+          <input
+          className={styles.input}
+            type="radio"
+            id="female"
+            name="sexe"
+            value="f"
+            onChange={handleChange}
+          />
+        </div>
+        <span className={styles.errorMessage} style={{ color: "red" }}>
+          {error}
+        </span>
+        <button type="submit" className={styles.submitButton}>
+          Submit
+        </button>
+        <button
+          type="button"
+          onClick={handleGoBack}
+          style={{ backgroundColor: "blue", color: "white" }}
+        >
+          Come Back
+        </button>
+      </form>
     </div>
-
-    <div className={styles.formRow}>
-      <div className={styles.formGroup}>
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="phone">Téléphone:</label>
-        <input type="text" id="phone" name="phone" value={formData.phone} onChange={handleChange} />
-      </div>
-    </div>
-
-    <div className={styles.formRow}>
-      <div className={styles.formGroup}>
-        <label htmlFor="adresse">Adresse:</label>
-        <input type="text" id="adresse" name="adresse" value={formData.adresse} onChange={handleChange} />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="dateNaissance">Saisir la date de naissance :</label>
-        <input type="date" id="dateNaissance" name="dateNaissance" value={formData.dateNaissance} onChange={handleChange} />
-      </div>
-    </div>
-    <div className={styles.formRow}>
-      <div className={styles.formGroup}>
-        <label htmlFor="password">Mot de passe:</label>
-        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} />
-      </div>
-      <div className={styles.formGroup}>
-        <label htmlFor="ConfirmedPassword">Confirmer le mot de passe :</label>
-        <input type="password" id="ConfirmedPassword" name="ConfirmedPassword" value={ConfirmedPassword} onChange={(e) => {
-          setConfirmPassword(e.target.value);
-        }} />
-      </div>
-    </div>
-
-    <div className={styles.genderField}>
-      <label htmlFor="male">Homme</label>
-      <input type="radio" id="male" name="sexe" value="h" onChange={handleChange} />
-
-      <label htmlFor="female">Femme</label>
-      <input type="radio" id="female" name="sexe" value="f" onChange={handleChange} />
-    </div>
-    <span className={styles.errorMessage} style={{ color: "red" }}>{error}</span>
-    <button type="submit" className={styles.submitButton}>Submit</button>
-    <button type="button" onClick={handleGoBack} style={{ backgroundColor: 'blue', color: 'white' }}>Come Back</button>
-
-  </form>
-</div>
- );
-  }
+  );
   
-  export default Register; 
+}
+
+export default Register;

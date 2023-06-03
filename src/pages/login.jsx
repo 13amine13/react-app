@@ -25,9 +25,9 @@ function Login() {
 
   return (
     <div className={styles.connecter}>
-      <h2>Connectez-vous à votre compte</h2>
-      <form onSubmit={handleSubmit}>
-        <input
+      <h2 className={styles.h2}>Connectez-vous à votre compte</h2>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <input className={styles.input}
           type="email"
           id="email"
           placeholder="Email"
@@ -35,7 +35,7 @@ function Login() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
+        <input className={styles.input}
           type="password"
           id="password"
           placeholder="Password"
@@ -43,7 +43,7 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className={styles.loginButton}>Se connecter</button>
+        <button type="submit" className={styles.button}>Se connecter</button>
       </form>
       <p>
         Not registered yet? <Link to="/Register">Create an account</Link>
