@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../Styles/login.css';
+import styles from '../Styles/login.module.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -24,32 +24,32 @@ function Login() {
   };
 
   return (
-    <div className="connecter">
-          <h2>Connectez-vous à votre compte</h2>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="email"
-              id="email"
-              placeholder="Email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              id="password"
-              placeholder="Password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Se connecter</button>
-          </form>
-          <p>
-            Not registered yet? <Link to="/Register">Create an account</Link>
-          </p>
+    <div className={styles.connecter}>
+      <h2>Connectez-vous à votre compte</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit" className={styles.loginButton}>Se connecter</button>
+      </form>
+      <p>
+        Not registered yet? <Link to="/Register">Create an account</Link>
+      </p>
     </div>
   );
 }
 
-export default Login; 
+export default Login;

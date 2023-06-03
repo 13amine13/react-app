@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   align-items: center; 
-  background-color: #f7f3ea;
+  background-color: rgb(255,255,255,0.9);
   padding: 1rem 0;
 }
 
@@ -31,13 +31,13 @@ form {
 /* Sign-up form input */
 input {
   width: 100%;
-  height: 60px;
+  /* height: 60px; */
   padding: 0.5rem;
   margin-bottom: 2rem;
   border: none;
   border-radius: 0.25rem;
   box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.1);
-  font-size: 1.7rem;
+  /* font-size: 1.7rem; */
   color: #634d40;
 }
 
@@ -58,7 +58,7 @@ button[type="submit"]:hover {
   background-color: #9b7d63;
 }
 body{
-background-color: floralwhite;
+background-color: rgb(255,255,255,.9);
 }
 p{
   margin: 0.5%;
